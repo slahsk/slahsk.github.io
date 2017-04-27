@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "springboot @Configuration"
-date:   2016-08-26
+date:   2016-10-26
 categories: spring
 tags: spring java
 excerpt: springboot
