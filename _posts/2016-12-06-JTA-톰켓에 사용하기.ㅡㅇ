@@ -1,0 +1,89 @@
+---
+layout: post
+title:  "JTA 톰켓에 사용하기"
+date:   2016-12-06
+categories: jta
+tags: java tomcat jta
+excerpt: "JTA 톰켓에 사용하기"
+---
+
+## JTA
+
+한개 이상의 `DB`나 `JMS`의 작업을 하나의 트랜잭션 안에서 동작하게 하려면 서버가 제공하는 트랜잭션 매니저를 `JTA`를 통해 사용해야 한다.
+
+
+`JTA`는 `WAS`가 제공하는 서비스를 이용하는 경우가 일반적이지만, 원한다면 서버의 지원 없이도 애플리케이션 안에 JTA 서비스 기능을 내장하는 독립형JTA 방식으로 이용 할 수 있다.
+
+이 방식을 사용하면 `JTA`를 지원하는 WAS가 아닌 `TOMCAT` 과 같은 서블릿 컨테이너에서도 `JTA`기능을 이용하는 것이 가능하다.
+
+독립형 `JTA` 트랜잭션 매니저는 ObjectWeb의 JTA 엔진인 [JOTM][cf428d7c]과 [Atomikos의 TransactionalEssential][a13baff6]가 대표적이다.
+
+  [cf428d7c]: http://jotm.objectweb.org/ "JOTM"
+  [a13baff6]: https://www.atomikos.com/Main/TransactionsEssentials "TransactionalEssential"
+
+  이 두 가지 모두 스프링의 `JtaTranssactionManager`와 결합하여 `JTA` 트랜잭션 서비스로 이용할 수 있다.
+
+## Atomikos
+### JTA 트랜잭션 매니저와 사용자 트랜잭션 등록
+  ```xml
+<ban id="atomikosTransactionManager"
+     class="com.atomikos.icatch.jta.UserTransactionManager"
+     init-method="init"
+     destroy-method="close">
+     <property name="forceShutdown">
+      <value>true</value>
+     </property>
+</ban>
+
+<bean id="atomikosUserTransaction"
+      class="com.atomikos.icatch.jta.UserTransactionImp">
+      <property name="transactionTimeout">
+       <value>300</value>
+      </property>
+</bean>
+  ```
+
+### JtaTransactionManager등록
+```xml
+<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+  <property name="transactionManager" ref="atomikosTransactionManager" />
+  <property name="userTransaction" ref="atomikosUserTransaction" />
+</bean>
+```
+
+### XA DataSource등록
+
+`JTA` 트랜잭션 매니저와 `XA` 프로토콜을 통해 트랜잭션이 동작하도록 만들어야 한다. 따라서 일반 `DataSource` 대신 `XA` 지원하는 `XA DataSource`
+사용해야 한다.
+
+`Atomikos`는 `XA` 지원 드라이버를 사용할 수도 있고, `XA`를 지원하지 않는 드라이버를 `Atomikos`의 도움을 통해 `XA` 드라이버처럼 사용하게 만들 수도 있다.
+
+```xml
+<bean id="dataSource1" class="com.atomikos.jdbc.AtomikosDataSourceBean"
+      init-method="init" destroy-method="close">
+  <property name="uniqueResourceName" value="MySQLXA1" /> //다른 DataSource 중복되는 않는 고유한 이름
+  <property name="xaDataSourceClassName"
+            value="com.mysql.jdbc.jdbc2.optional.MySqlXADataSource" /> //DB에서 제공되는 javax.sql.XADataSource 구현 드라이버
+  <property name="xaProperties">
+    <props>
+      <prop key="user">test</prop>
+      <prop key="password">password</prop>
+      <prop key="url">jdbc:mysql://localhost/tx1</prop>
+      <prop key="poolSize" value="1" />
+    </props>
+  </property>
+</bean>
+
+<bean id="dataSource2" class="com.atomikos.jdbc.AtomikosDataSourceBean" ...>
+  <property name="uniqueResourceName" value="MySQLXA2" />
+  ...
+</bean>
+
+<bean id="dataSource3" class="com.atomikos.jdbc.AtomikosDataSourceBean" ...>
+  <property name="uniqueResourceName" value="MySQLXA3" />
+  ...
+</bean>
+
+```
+
+[[영문사이트|https://www.atomikos.com/Documentation/SpringIntegration#Configuring_Atomikos_as_the_Spring_JTA_Transaction_Manager]]
