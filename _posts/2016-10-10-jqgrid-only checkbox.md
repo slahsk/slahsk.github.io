@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "multiselect only checkbox"
-date:   2016-08-10
+date:   2016-10-10
 categories: jqgrid
 tags: javascript jqgrid
 excerpt: multiselect only checkbox
