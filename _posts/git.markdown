@@ -5,7 +5,6 @@ date:   2016-08-16
 categories: git
 tags: git
 excerpt: git 명령어!
-mathjax: true
 ---
 
 ```
