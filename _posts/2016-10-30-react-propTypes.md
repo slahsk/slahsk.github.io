@@ -39,7 +39,7 @@ excerpt: react propTypes
  PropTypes.oneOf  |  속성이 열거형과 같이 특정한  범위의 값으로 헌정돼야 한다. <br>예: PropTypes.oneOf(['News','Photos'])
 
 
-```react
+```js
 import React, {Component,PropTypes} from 'react';
 import Card from './Card';
 import style from './kanban.css';
