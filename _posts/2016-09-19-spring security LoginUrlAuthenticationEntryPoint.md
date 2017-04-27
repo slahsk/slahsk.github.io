@@ -1,10 +1,10 @@
 ---
 layout: post
-title:  spring security LoginUrlAuthenticationEntryPoint
+title:  LoginUrlAuthenticationEntryPoint
 date:   2016-09-19
 categories: spring
 tags: java spring security
-excerpt: spring security LoginUrlAuthenticationEntryPoint
+excerpt: LoginUrlAuthenticationEntryPoint
 ---
 
 session 끊긴후 ajax 를 호출하면 상태값이 200 떨어지면서 정상처리 된다.
