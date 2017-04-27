@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "springboot"
+title:  "springboot Configuration"
 date:   2016-08-26
-categories: jekyll
-tags: springboot, java
+categories: spring
+tags: spring java
 excerpt: springboot
 ---
 
