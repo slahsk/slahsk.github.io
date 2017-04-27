@@ -1,12 +1,12 @@
-
 ---
 layout: post
-title:  "Jreact Lifecycle and state"
+title:  "react Lifecycle and state"
 date:   2016-11-06
 categories: react
 tags: javascript react
-excerpt: "react Lifecycle and state"
+excerpt: react Lifecycle and state
 ---
+
 
 
 ## Lifecycle
