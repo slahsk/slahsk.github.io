@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "springboot Configuration"
+title:  "springboot @Configuration"
 date:   2016-08-26
 categories: spring
 tags: spring java
