@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  spring security LoginUrlAuthenticationEntryPoint
-date:   2017-03-19
+date:   2016-09-19
 categories: spring
 tags: java spring security
 excerpt: spring security LoginUrlAuthenticationEntryPoint
