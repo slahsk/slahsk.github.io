@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem "jekyll", "3.3.0"
+gem "jekyll", "3.6.3"
 
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
